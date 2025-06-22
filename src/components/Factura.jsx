@@ -8,11 +8,9 @@ import './styles/factura.css';
 import logoFactura from './assets/logo-factura.png';
 
 // Configuración para XAMPP (ajusta el nombre de tu proyecto)
-// Usa ESTA configuración:
 const API_URL = 'http://localhost/facturaelectronica/src/api';
 
 const Factura = () => {
-  // Estado inicial con datos de ejemplo
   const [factura, setFactura] = useState({
     id_factura: '',
     fecha: new Date().toISOString().split('T')[0],
@@ -61,11 +59,11 @@ const Factura = () => {
       ...newProductos[index],
       [name]: name === 'descripcion' ? value : parseFloat(value) || 0,
     };
-    
+
     if (name === 'cantidad' || name === 'precio_unit') {
       newProductos[index].total = newProductos[index].cantidad * newProductos[index].precio_unit;
     }
-    
+
     setProductos(newProductos);
   };
 
@@ -92,7 +90,7 @@ const Factura = () => {
   const exportarAPDF = () => {
     setLoading(true);
     const input = facturaRef.current;
-    
+
     html2canvas(input, {
       scale: 2,
       logging: false,
@@ -103,12 +101,10 @@ const Factura = () => {
       const pdf = new jsPDF('p', 'mm', 'a4');
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      
       const margin = 10;
       const contentWidth = pdfWidth - margin * 2;
       const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
-      
+
       pdf.addImage(imgData, 'PNG', margin, margin, contentWidth, contentHeight);
       pdf.save(`factura_${factura.id_factura || 'generada'}.pdf`);
       setLoading(false);
@@ -119,7 +115,7 @@ const Factura = () => {
     });
   };
 
-  // Función mejorada para guardar en la base de datos
+  // Guardar en la base de datos
   const handleGuardar = async () => {
     if (!factura.id_factura || !cliente.nombre) {
       setError('Por favor complete el número de factura y nombre del cliente');
@@ -130,7 +126,6 @@ const Factura = () => {
     setError(null);
 
     try {
-      // 1. Guardar cliente
       const clienteResponse = await fetch(`${API_URL}/guardar_cliente.php`, {
         method: 'POST',
         headers: { 
@@ -139,24 +134,23 @@ const Factura = () => {
         },
         body: JSON.stringify(cliente)
       });
-      
+
       if (!clienteResponse.ok) {
         const errorText = await clienteResponse.text();
         throw new Error(`Error al guardar cliente: ${errorText}`);
       }
-      
+
       const clienteData = await clienteResponse.json();
-      
+
       if (!clienteData.success) {
         throw new Error(clienteData.error || 'Error al guardar cliente');
       }
 
-      // 2. Guardar factura
       const facturaData = {
         ...factura,
         id_cliente: clienteData.id_cliente
       };
-      
+
       const facturaResponse = await fetch(`${API_URL}/guardar_factura.php`, {
         method: 'POST',
         headers: { 
@@ -165,25 +159,24 @@ const Factura = () => {
         },
         body: JSON.stringify(facturaData)
       });
-      
+
       if (!facturaResponse.ok) {
         const errorText = await facturaResponse.text();
         throw new Error(`Error al guardar factura: ${errorText}`);
       }
-      
+
       const facturaResult = await facturaResponse.json();
-      
+
       if (!facturaResult.success) {
         throw new Error(facturaResult.error || 'Error al guardar factura');
       }
 
-      // 3. Guardar productos
       const productosPromises = productos.map(producto => {
         const productoData = {
           ...producto,
           id_factura: factura.id_factura || facturaResult.id_factura
         };
-        
+
         return fetch(`${API_URL}/guardar_producto.php`, {
           method: 'POST',
           headers: { 
@@ -195,8 +188,7 @@ const Factura = () => {
       });
 
       const productosResponses = await Promise.all(productosPromises);
-      
-      // Verificar cada respuesta
+
       for (const response of productosResponses) {
         if (!response.ok) {
           const errorText = await response.text();
@@ -223,7 +215,7 @@ const Factura = () => {
         <img src={logoFactura} alt="Logo Facturación" className="logo-factura" />
         <h1>Factura Electrónica</h1>
       </div>
-      
+
       <div className="factura-header">
         <div className="factura-info">
           <label>
@@ -232,7 +224,7 @@ const Factura = () => {
               type="text" 
               name="id_factura" 
               value={factura.id_factura} 
-              onChange={(e) => setFactura({...factura, id_factura: e.target.value})}
+              onChange={(e) => setFactura({ ...factura, id_factura: e.target.value })}
               required
             />
           </label>
@@ -242,7 +234,7 @@ const Factura = () => {
               type="date" 
               name="fecha" 
               value={factura.fecha} 
-              onChange={(e) => setFactura({...factura, fecha: e.target.value})}
+              onChange={(e) => setFactura({ ...factura, fecha: e.target.value })}
             />
           </label>
         </div>
@@ -258,7 +250,7 @@ const Factura = () => {
       />
 
       <Totales subtotal={subtotal} iva={iva} total={total} />
-      
+
       <div className="botones-accion">
         {error && <div className="error-message">{error}</div>}
         <button 
@@ -266,26 +258,14 @@ const Factura = () => {
           onClick={handleGuardar}
           disabled={loading}
         >
-          {loading ? (
-            <span>Guardando...</span>
-          ) : (
-            <>
-              <i className="fas fa-save"></i> Guardar Factura
-            </>
-          )}
+          {loading ? 'Guardando...' : <><i className="fas fa-save"></i> Guardar Factura</>}
         </button>
         <button 
           className="btn-pdf" 
           onClick={exportarAPDF}
           disabled={loading}
         >
-          {loading ? (
-            <span>Generando...</span>
-          ) : (
-            <>
-              <i className="fas fa-file-pdf"></i> Exportar a PDF
-            </>
-          )}
+          {loading ? 'Generando...' : <><i className="fas fa-file-pdf"></i> Exportar a PDF</>}
         </button>
       </div>
     </div>
