@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 const ClienteCRUD = () => {
-  const API_BASE_URL = 'http://localhost/facturaelectronica/src/api';
+  const API_BASE_URL = 'https://facturaelectronicaphp-f5ctg3eyfna4azcr.canadacentral-01.azurewebsites.net/api';
   const [clientes, setClientes] = useState([]);
   const [formData, setFormData] = useState({
     id_cliente: '',

@@ -8,7 +8,7 @@ import './styles/factura.css';
 import logoFactura from './assets/logo-factura.png';
 
 // Configuración para XAMPP (ajusta el nombre de tu proyecto)
-const API_URL = 'http://localhost/facturaelectronica/src/api';
+const API_URL = 'https://facturaelectronicaphp-f5ctg3eyfna4azcr.canadacentral-01.azurewebsites.net/api';
 
 const Factura = () => {
   const [factura, setFactura] = useState({
