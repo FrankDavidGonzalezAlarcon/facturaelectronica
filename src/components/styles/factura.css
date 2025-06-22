@@ -1,0 +1,416 @@
+/* Estilos base modernizados */
+.factura-container {
+  max-width: 800px;
+  margin: 1rem auto;
+  padding: 2.5rem;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  box-shadow: 0 10px 30px rgba(7, 42, 243, 0.665);
+  border-radius: 12px;
+  background-color: #edf5ffe0;
+  color: #2d3748;
+}
+
+/* Encabezado con logo */
+.titulo-con-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.0rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.titulo-con-logo h1 {
+  color: #2b6cb0;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 350;
+  position: relative;
+}
+
+.titulo-con-logo h1:after {
+  content: "";
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: #4299e1;
+  border-radius: 3px;
+}
+
+.logo-factura {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo-factura:hover {
+  transform: scale(1.05);
+}
+
+/* Encabezado premium */
+.factura-container h1 {
+  color: #2b6cb0;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  position: relative;
+}
+
+.factura-container h1:after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: #4299e1;
+  border-radius: 3px;
+}
+
+.factura-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f7fafc 0%, #1565c7 100%);
+  border-radius: 8px;
+  border: 1px solid #357cda;
+}
+
+.factura-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Resto de estilos (se mantienen igual que en la versión anterior) */
+.cliente-info {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #1a78d6;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.40rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background-color: #ffffff;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.productos-lista table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.productos-lista th {
+  background: linear-gradient(135deg, #1565c775 0%, #1565c7 100%);
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.productos-lista td {
+  padding: 1rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.productos-lista tr:last-child td {
+  border-bottom: none;
+}
+
+.productos-lista tr:hover {
+  background-color: #f7fafc;
+}
+
+.productos-lista input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.productos-lista input:focus {
+  border-color: #4299e1;
+}
+
+.totales {
+  margin-top: 1.5rem;
+  text-align: right;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #bee3f8;
+}
+
+.total-row {
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-row:last-child {
+  font-weight: 600;
+  color: #2b6cb0;
+  font-size: 1.2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #bee3f8;
+  margin-top: 0.5rem;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #2b6cb0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 0.75rem;
+}
+
+button:hover {
+  background-color: #2c5282;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input, button, table {
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .factura-container {
+    padding: 1.5rem;
+  }
+  
+  .factura-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .productos-lista th, 
+  .productos-lista td {
+    padding: 0.75rem;
+  }
+}
+
+.factura-info input[type="text"],
+.factura-info input[type="date"] {
+  width: 50%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  }  
+
+  .app-container {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.navbar button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar button:hover {
+  background-color: #45a049;
+}
+
+.crud-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.crud-container h2 {
+  margin-top: 0;
+}
+
+.crud-container form {
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.crud-container input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.crud-container button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.crud-container button:hover {
+  background-color: #45a049;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.crud-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #fde0e0;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.loading-message {
+  color: #1976d2;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+button[type="button"] {
+  background-color: #f44336;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
