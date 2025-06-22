@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const ClienteCRUD = () => {
   const API_BASE_URL = 'http://localhost/facturaelectronica/src/api';
@@ -20,7 +20,7 @@ const ClienteCRUD = () => {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 8000);
-      
+
       const response = await fetch(url, {
         ...options,
         signal: controller.signal,
@@ -29,14 +29,14 @@ const ClienteCRUD = () => {
           ...options.headers
         }
       });
-      
+
       clearTimeout(timeout);
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `Error ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error('Fetch error:', error);
@@ -44,8 +44,8 @@ const ClienteCRUD = () => {
     }
   };
 
-  // Obtener clientes
-  const fetchClientes = async () => {
+  // Obtener clientes (usando useCallback para evitar advertencias)
+  const fetchClientes = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -56,18 +56,18 @@ const ClienteCRUD = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_BASE_URL]);
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     try {
       const url = `${API_BASE_URL}/crud_api.php`;
       const method = editingId ? 'PUT' : 'POST';
-      
+
       await fetchData(url, {
         method: 'POST',
         headers: {
@@ -75,7 +75,7 @@ const ClienteCRUD = () => {
         },
         body: JSON.stringify(formData)
       });
-      
+
       await fetchClientes();
       resetForm();
     } catch (error) {
@@ -88,10 +88,10 @@ const ClienteCRUD = () => {
   // Eliminar cliente
   const handleDelete = async (id) => {
     if (!window.confirm('¿Eliminar este cliente?')) return;
-    
+
     setLoading(true);
     setError(null);
-    
+
     try {
       await fetchData(`${API_BASE_URL}/crud_api.php`, {
         method: 'POST',
@@ -100,7 +100,7 @@ const ClienteCRUD = () => {
         },
         body: JSON.stringify({ id_cliente: id })
       });
-      
+
       await fetchClientes();
     } catch (error) {
       setError(`Error al eliminar: ${error.message}`);
@@ -125,12 +125,12 @@ const ClienteCRUD = () => {
   // Cargar datos iniciales
   useEffect(() => {
     fetchClientes();
-  }, []);
+  }, [fetchClientes]);
 
   return (
     <div className="crud-container">
       <h2>Gestión de Clientes</h2>
-      
+
       {/* Mensajes de estado */}
       {error && (
         <div className="error-message">
@@ -138,9 +138,9 @@ const ClienteCRUD = () => {
           <button onClick={() => setError(null)} className="close-btn">×</button>
         </div>
       )}
-      
+
       {loading && <div className="loading-overlay">Procesando...</div>}
-      
+
       {/* Formulario */}
       <form onSubmit={handleSubmit} className="client-form">
         <div className="form-row">
@@ -150,25 +150,25 @@ const ClienteCRUD = () => {
               type="text"
               name="nombre"
               value={formData.nombre}
-              onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
               required
               disabled={loading}
             />
           </div>
-          
+
           <div className="form-group">
             <label>Teléfono*</label>
             <input
               type="text"
               name="telefono"
               value={formData.telefono}
-              onChange={(e) => setFormData({...formData, telefono: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
               required
               disabled={loading}
             />
           </div>
         </div>
-        
+
         <div className="form-row">
           <div className="form-group">
             <label>Centro Comercial</label>
@@ -176,23 +176,23 @@ const ClienteCRUD = () => {
               type="text"
               name="centrocomercial"
               value={formData.centrocomercial}
-              onChange={(e) => setFormData({...formData, centrocomercial: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, centrocomercial: e.target.value })}
               disabled={loading}
             />
           </div>
-          
+
           <div className="form-group">
             <label>Local</label>
             <input
               type="text"
               name="local"
               value={formData.local}
-              onChange={(e) => setFormData({...formData, local: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, local: e.target.value })}
               disabled={loading}
             />
           </div>
         </div>
-        
+
         <div className="form-row">
           <div className="form-group">
             <label>Fecha de Venta</label>
@@ -200,12 +200,12 @@ const ClienteCRUD = () => {
               type="date"
               name="fecha_venta"
               value={formData.fecha_venta}
-              onChange={(e) => setFormData({...formData, fecha_venta: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, fecha_venta: e.target.value })}
               disabled={loading}
             />
           </div>
         </div>
-        
+
         <div className="form-actions">
           <button type="submit" disabled={loading} className="btn-primary">
             {editingId ? 'Actualizar Cliente' : 'Agregar Cliente'}
@@ -217,7 +217,7 @@ const ClienteCRUD = () => {
           )}
         </div>
       </form>
-      
+
       {/* Tabla de clientes */}
       <div className="table-responsive">
         <table>
@@ -243,7 +243,7 @@ const ClienteCRUD = () => {
                   <td>{cliente.local}</td>
                   <td>{cliente.fecha_venta}</td>
                   <td className="actions">
-                    <button 
+                    <button
                       onClick={() => {
                         setFormData({
                           id_cliente: cliente.id_cliente,
@@ -260,7 +260,7 @@ const ClienteCRUD = () => {
                     >
                       Editar
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDelete(cliente.id_cliente)}
                       disabled={loading}
                       className="btn-delete"
